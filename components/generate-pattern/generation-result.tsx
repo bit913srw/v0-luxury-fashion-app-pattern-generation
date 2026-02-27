@@ -263,10 +263,10 @@ export function GenerationResult({
           
           <div className="mt-4 flex flex-col gap-3">
             {[
-              { name: "Italian Silk Charmeuse", type: "Silk", color: "#8B1A1A" },
-              { name: "Japanese Crepe de Chine", type: "Silk Blend", color: "#6B1515" },
-              { name: "French Wool Gabardine", type: "Wool", color: "#4A1010" },
-              { name: "Belgian Linen Twill", type: "Linen", color: "#A52A2A" },
+              { name: "Italian Silk Charmeuse", type: "Silk", color: "#8B1A1A", yardage: "2.5 yards" },
+              { name: "Japanese Crepe de Chine", type: "Silk Blend", color: "#6B1515", yardage: "2.75 yards" },
+              { name: "French Wool Gabardine", type: "Wool", color: "#4A1010", yardage: "3 yards" },
+              { name: "Belgian Linen Twill", type: "Linen", color: "#A52A2A", yardage: "2.5 yards" },
             ].map((fabric, index) => (
               <div key={index} className="flex items-center gap-3 p-3 bg-secondary/50 border border-border">
                 <div 
@@ -282,9 +282,53 @@ export function GenerationResult({
                     {fabric.type}
                   </p>
                 </div>
+                <p className="font-mono text-[10px] text-foreground flex-shrink-0">
+                  {fabric.yardage}
+                </p>
               </div>
             ))}
           </div>
+
+          {/* Notions & Thread Section */}
+          <h4 className="mt-8 font-mono text-xs tracking-[0.2em] uppercase text-foreground">
+            Notions & Thread
+          </h4>
+          
+          <div className="mt-4 flex flex-col gap-3">
+            {[
+              { name: "Matching Polyester Thread", detail: "Deep Red #812", quantity: "2 spools" },
+              { name: "Invisible Zipper", detail: "22 inch, Deep Red", quantity: "1 pc" },
+              { name: "Silk Covered Buttons", detail: "15mm, Self-Cover", quantity: "6 pcs" },
+              { name: "Lightweight Fusible Interfacing", detail: "Woven, White", quantity: "0.5 yards" },
+            ].map((notion, index) => (
+              <div key={index} className="flex items-center gap-3 p-3 bg-secondary/50 border border-border">
+                <div className="flex-1 min-w-0">
+                  <p className="font-mono text-xs text-foreground truncate">
+                    {notion.name}
+                  </p>
+                  <p className="font-mono text-[10px] text-muted-foreground">
+                    {notion.detail}
+                  </p>
+                </div>
+                <p className="font-mono text-[10px] text-foreground flex-shrink-0">
+                  {notion.quantity}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Add to MOOD Cart Button */}
+          <a
+            href="https://www.moodfabrics.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-6 w-full flex items-center justify-center gap-3 bg-foreground text-primary-foreground font-mono text-sm tracking-[0.2em] uppercase py-4 hover:opacity-90 transition-opacity"
+          >
+            Add All to MOOD Fabrics Cart
+          </a>
+          <p className="mt-2 text-center font-mono text-[10px] text-muted-foreground italic">
+            Redirecting to moodfabrics.com
+          </p>
         </div>
 
         {/* Pattern Saved Confirmation */}
