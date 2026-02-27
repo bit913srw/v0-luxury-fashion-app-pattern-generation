@@ -53,7 +53,7 @@ export function GenerationResult({
       <div className="flex flex-col flex-1 items-center justify-center text-center">
         <LoadingSpinner />
         <p className="mt-8 font-sans text-2xl md:text-3xl italic text-foreground">
-          AI is crafting your design...
+          AI.TELIER is crafting your design
         </p>
         <p className="mt-3 font-mono text-xs text-muted-foreground tracking-[0.1em]">
           Analyzing your brief and generating garment visualization
