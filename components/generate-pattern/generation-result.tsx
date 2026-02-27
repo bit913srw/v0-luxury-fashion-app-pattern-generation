@@ -250,9 +250,57 @@ export function GenerationResult({
             <FileText className="h-4 w-4" />
             <span>Download Pattern PDF</span>
           </button>
-          <p className="text-center font-mono text-xs text-muted-foreground">
-            Your pattern has been saved to your Studio
+        </div>
+
+        {/* Recommended Fabrics Section */}
+        <div className="mt-10 border-t border-foreground/20 pt-8">
+          <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-foreground">
+            Recommended Fabrics
+          </h4>
+          <p className="mt-1 font-mono text-[10px] text-muted-foreground italic">
+            Sourced from MOOD Fabrics
           </p>
+          
+          <div className="mt-4 flex flex-col gap-3">
+            {[
+              { name: "Italian Silk Charmeuse", type: "Silk", color: "#8B1A1A" },
+              { name: "Japanese Crepe de Chine", type: "Silk Blend", color: "#6B1515" },
+              { name: "French Wool Gabardine", type: "Wool", color: "#4A1010" },
+              { name: "Belgian Linen Twill", type: "Linen", color: "#A52A2A" },
+            ].map((fabric, index) => (
+              <div key={index} className="flex items-center gap-3 p-3 bg-secondary/50 border border-border">
+                <div 
+                  className="w-8 h-8 border border-foreground/20 flex-shrink-0" 
+                  style={{ backgroundColor: fabric.color }}
+                  aria-label={`${fabric.name} color swatch`}
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="font-mono text-xs text-foreground truncate">
+                    {fabric.name}
+                  </p>
+                  <p className="font-mono text-[10px] text-muted-foreground">
+                    {fabric.type}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Pattern Saved Confirmation */}
+        <div className="mt-10 border-t border-foreground/20 pt-8 pb-8">
+          <p className="text-center font-mono text-sm tracking-[0.2em] uppercase text-foreground">
+            Your Pattern Has Been Saved
+          </p>
+          
+          <div className="mt-6 flex gap-3">
+            <button className="flex-1 flex items-center justify-center border border-foreground px-4 py-3 font-mono text-xs tracking-[0.15em] uppercase text-foreground bg-background hover:bg-foreground hover:text-primary-foreground transition-colors">
+              View in My Patterns
+            </button>
+            <button className="flex-1 flex items-center justify-center border border-foreground px-4 py-3 font-mono text-xs tracking-[0.15em] uppercase text-foreground bg-background hover:bg-foreground hover:text-primary-foreground transition-colors">
+              List on Marketplace
+            </button>
+          </div>
         </div>
       </div>
     </div>
