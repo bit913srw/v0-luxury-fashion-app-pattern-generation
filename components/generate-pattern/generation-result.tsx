@@ -167,10 +167,10 @@ export function GenerationResult({
 
   return (
     <div className="flex flex-col flex-1 w-full max-w-5xl mx-auto px-4">
-      {/* Two Column Layout */}
-      <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
-        {/* LEFT COLUMN - Pattern Preview */}
-        <div className="flex-1 lg:flex-[1.2]">
+      {/* Two Column Layout - Side by Side */}
+      <div className="flex flex-col md:flex-row gap-8 md:gap-10">
+        {/* LEFT COLUMN - Pattern Preview (50%) */}
+        <div className="w-full md:w-1/2">
           {/* Pattern PDF Preview */}
           <div className="relative aspect-[3/4] bg-card border border-border overflow-hidden">
             <div className="absolute inset-0 p-8 flex flex-col">
@@ -267,8 +267,8 @@ export function GenerationResult({
           </div>
         </div>
 
-        {/* RIGHT COLUMN - Fabrics & Notions */}
-        <div className="flex-1">
+        {/* RIGHT COLUMN - Fabrics & Notions (50%, smaller font) */}
+        <div className="w-full md:w-1/2">
           {/* Recommended Fabrics Section */}
           <div>
             <h4 className="font-mono text-[11px] tracking-[0.2em] uppercase text-foreground">
