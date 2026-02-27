@@ -5,9 +5,9 @@ import { Check } from "lucide-react"
 import { StepNav } from "./step-nav"
 
 const SAVED_PROFILES = [
-  { id: "p1", name: "Primary Fit", bust: "34", waist: "26", hips: "36" },
-  { id: "p2", name: "Relaxed Fit", bust: "36", waist: "28", hips: "38" },
-  { id: "p3", name: "Client — Emma R.", bust: "32", waist: "24", hips: "34" },
+  { id: "p1", name: "HERO", bust: "34", waist: "26", hips: "36" },
+  { id: "p2", name: "DEMO 1", bust: "36", waist: "28", hips: "38" },
+  { id: "p3", name: "DEMO 2", bust: "32", waist: "24", hips: "34" },
 ]
 
 const MEASUREMENT_FIELDS = [
