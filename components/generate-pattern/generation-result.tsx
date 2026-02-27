@@ -66,37 +66,17 @@ export function GenerationResult({
     return (
       <div className="flex flex-col flex-1 items-center justify-center">
         <div className="w-full max-w-lg">
-          {/* AI Generated Image placeholder */}
-          <div className="relative aspect-[3/4] bg-secondary border border-border overflow-hidden">
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
-              <div className="w-full h-full relative">
-                {/* Stylized garment silhouette */}
-                <svg viewBox="0 0 300 400" className="w-full h-full" aria-label={`AI generated ${garmentType} design`}>
-                  <defs>
-                    <linearGradient id="fabric" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#8B1A1A" stopOpacity="0.08" />
-                      <stop offset="50%" stopColor="#8B1A1A" stopOpacity="0.15" />
-                      <stop offset="100%" stopColor="#8B1A1A" stopOpacity="0.05" />
-                    </linearGradient>
-                  </defs>
-                  <rect width="300" height="400" fill="url(#fabric)" />
-                  {/* Body form */}
-                  <ellipse cx="150" cy="100" rx="40" ry="30" fill="none" stroke="#8B1A1A" strokeWidth="0.5" opacity="0.4" />
-                  <path d="M 110 120 Q 100 200 95 280 L 105 350 Q 150 360 195 350 L 205 280 Q 200 200 190 120" fill="none" stroke="#8B1A1A" strokeWidth="1" opacity="0.6" />
-                  {/* Sleeve lines */}
-                  <path d="M 110 130 Q 70 160 55 220" fill="none" stroke="#8B1A1A" strokeWidth="0.8" opacity="0.5" />
-                  <path d="M 190 130 Q 230 160 245 220" fill="none" stroke="#8B1A1A" strokeWidth="0.8" opacity="0.5" />
-                  {/* Detail lines */}
-                  <line x1="150" y1="120" x2="150" y2="300" stroke="#8B1A1A" strokeWidth="0.3" opacity="0.3" strokeDasharray="4 4" />
-                  <path d="M 120 180 Q 150 190 180 180" fill="none" stroke="#8B1A1A" strokeWidth="0.4" opacity="0.3" />
-                  <path d="M 115 240 Q 150 250 185 240" fill="none" stroke="#8B1A1A" strokeWidth="0.4" opacity="0.3" />
-                </svg>
-              </div>
-              <div className="absolute bottom-4 left-4 right-4 text-center">
-                <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground">
-                  AI Generated {garmentType}
-                </p>
-              </div>
+          {/* AI Generated Image */}
+          <div className="relative aspect-[3/4] bg-[#F5F3EF] border border-border overflow-hidden">
+            <img
+              src="/images/mannequin-dress.jpg"
+              alt={`AI generated ${garmentType} design on cloth mannequin`}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute bottom-4 left-4 right-4 text-center">
+              <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground bg-background/80 py-1 px-2 inline-block">
+                AI Generated {garmentType}
+              </p>
             </div>
           </div>
 
