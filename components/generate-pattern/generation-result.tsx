@@ -6,6 +6,7 @@ import { RotateCcw, Pencil, ArrowRight, FileText } from "lucide-react"
 type Phase = "generating-design" | "design-ready" | "generating-pattern" | "pattern-ready"
 
 interface GenerationResultProps {
+  projectTitle: string
   garmentType: string
   description: string
   onRegenerate: () => void
@@ -96,6 +97,7 @@ function GarmentViewer({
 }
 
 export function GenerationResult({
+  projectTitle,
   garmentType,
   description,
   onRegenerate,
@@ -171,7 +173,7 @@ export function GenerationResult({
                 AI.TELIER Pattern Sheet
               </p>
               <h3 className="mt-2 font-sans text-lg text-foreground">
-                Professional Pattern
+                {projectTitle ? `${projectTitle} Pattern` : "Pattern"}
               </h3>
             </div>
 
