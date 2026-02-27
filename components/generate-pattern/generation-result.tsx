@@ -161,160 +161,137 @@ export function GenerationResult({
   }
 
   // pattern-ready
+  const [activeView, setActiveView] = useState<"front" | "back" | "left" | "right">("front")
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center">
-      <div className="w-full max-w-lg">
-        {/* Pattern PDF Preview */}
-        <div className="relative aspect-[3/4] bg-card border border-border overflow-hidden">
-          <div className="absolute inset-0 p-8 flex flex-col">
-            {/* Header */}
-            <div className="border-b border-foreground/20 pb-4 mb-6">
-              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-muted-foreground">
-                AI.TELIER Pattern Sheet
-              </p>
-              <h3 className="mt-2 font-sans text-lg text-foreground">
-                {projectTitle ? `${projectTitle} Pattern` : "Pattern"}
-              </h3>
-            </div>
+    <div className="flex flex-col flex-1 w-full max-w-6xl mx-auto px-4">
+      {/* Two Column Layout */}
+      <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        {/* LEFT SIDE - Garment Image */}
+        <div className="flex-1 lg:max-w-md">
+          {/* Project Title */}
+          <h2 className="font-sans text-xl md:text-2xl text-foreground mb-4">
+            {projectTitle ? `${projectTitle} Pattern` : "Pattern"}
+          </h2>
 
-            {/* Pattern lines */}
-            <div className="flex-1 relative">
-              <svg viewBox="0 0 300 300" className="w-full h-full" aria-label="Pattern preview">
-                {/* Grid */}
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <line
-                    key={`h-${i}`}
-                    x1="0"
-                    y1={i * 25}
-                    x2="300"
-                    y2={i * 25}
-                    stroke="#8B1A1A"
-                    strokeWidth="0.2"
-                    opacity="0.2"
-                  />
-                ))}
-                {Array.from({ length: 12 }).map((_, i) => (
-                  <line
-                    key={`v-${i}`}
-                    x1={i * 25}
-                    y1="0"
-                    x2={i * 25}
-                    y2="300"
-                    stroke="#8B1A1A"
-                    strokeWidth="0.2"
-                    opacity="0.2"
-                  />
-                ))}
-                {/* Pattern pieces */}
-                <path
-                  d="M 30 40 L 120 30 Q 140 35 145 80 L 150 200 Q 148 220 130 230 L 40 240 Q 25 235 25 220 L 20 60 Q 22 42 30 40 Z"
-                  fill="none"
-                  stroke="#8B1A1A"
-                  strokeWidth="1.5"
-                  opacity="0.7"
-                />
-                <path
-                  d="M 160 60 L 260 50 Q 275 55 278 90 L 280 180 Q 278 200 265 210 L 170 220 Q 155 215 155 200 L 155 80 Q 157 62 160 60 Z"
-                  fill="none"
-                  stroke="#8B1A1A"
-                  strokeWidth="1.5"
-                  opacity="0.7"
-                />
-                {/* Measurement indicators */}
-                <line x1="30" y1="260" x2="145" y2="260" stroke="#8B1A1A" strokeWidth="0.5" opacity="0.5" markerEnd="url(#arrowhead)" />
-                <line x1="160" y1="260" x2="278" y2="260" stroke="#8B1A1A" strokeWidth="0.5" opacity="0.5" />
-                {/* Notch marks */}
-                <circle cx="80" cy="35" r="2" fill="#8B1A1A" opacity="0.5" />
-                <circle cx="210" cy="55" r="2" fill="#8B1A1A" opacity="0.5" />
-                {/* Grain line */}
-                <line x1="85" y1="60" x2="85" y2="220" stroke="#8B1A1A" strokeWidth="0.5" opacity="0.4" strokeDasharray="6 3" />
-                <line x1="220" y1="75" x2="220" y2="200" stroke="#8B1A1A" strokeWidth="0.5" opacity="0.4" strokeDasharray="6 3" />
-              </svg>
-            </div>
-
-            {/* Footer */}
-            <div className="border-t border-foreground/20 pt-3 mt-4 flex justify-between">
-              <p className="font-mono text-[9px] text-muted-foreground">
-                Scale: 1:8
-              </p>
-              <p className="font-mono text-[9px] text-muted-foreground">
-                All seam allowances included
-              </p>
+          {/* Garment Image with Paper Strip */}
+          <div className="relative aspect-[3/4] bg-[#F5F3EF] border border-border overflow-hidden">
+            <img
+              src="/images/garment-mannequin.jpg"
+              alt={`AI generated ${garmentType} design on cloth mannequin - ${activeView} view`}
+              className="w-full h-full object-cover"
+            />
+            
+            {/* Paper Strip Overlay */}
+            <div 
+              className="absolute left-4 right-4 top-1/2 -translate-y-1/2 flex items-center justify-center"
+              style={{ transform: 'translateY(-50%) rotate(-2deg)' }}
+            >
+              <div 
+                className="px-6 py-3 bg-[#F5F2EB]/90 max-w-[90%]"
+                style={{ 
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)',
+                }}
+              >
+                <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-foreground text-center leading-relaxed">
+                  Will Be 3D Rendered Design. User Will Be Able To Drag Toggle To Explore All Angles
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Download */}
-        <div className="mt-6 flex flex-col gap-3">
-          <button className="w-full flex items-center justify-center gap-3 bg-foreground text-primary-foreground font-mono text-sm tracking-[0.2em] uppercase py-4 hover:opacity-90 transition-opacity">
+          {/* View Buttons */}
+          <div className="mt-4 flex gap-2">
+            {(["front", "back", "left", "right"] as const).map((view) => (
+              <button
+                key={view}
+                onClick={() => setActiveView(view)}
+                className={`flex-1 py-2 font-mono text-[10px] tracking-[0.15em] uppercase border transition-colors ${
+                  activeView === view
+                    ? "bg-foreground text-primary-foreground border-foreground"
+                    : "bg-background text-foreground border-foreground hover:bg-foreground hover:text-primary-foreground"
+                }`}
+              >
+                {view}
+              </button>
+            ))}
+          </div>
+
+          {/* Download Button */}
+          <button className="mt-4 w-full flex items-center justify-center gap-3 bg-foreground text-primary-foreground font-mono text-xs tracking-[0.2em] uppercase py-3 hover:opacity-90 transition-opacity">
             <FileText className="h-4 w-4" />
             <span>Download Pattern PDF</span>
           </button>
         </div>
 
-        {/* Recommended Fabrics Section */}
-        <div className="mt-10 border-t border-foreground/20 pt-8">
-          <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-foreground">
-            Recommended Fabrics
-          </h4>
-          <p className="mt-1 font-mono text-[10px] text-muted-foreground italic">
-            Sourced from MOOD Fabrics
-          </p>
-          
-          <div className="mt-4 flex flex-col gap-3">
-            {[
-              { name: "Italian Silk Charmeuse", type: "Silk", color: "#8B1A1A", yardage: "2.5 yards" },
-              { name: "Japanese Crepe de Chine", type: "Silk Blend", color: "#6B1515", yardage: "2.75 yards" },
-              { name: "French Wool Gabardine", type: "Wool", color: "#4A1010", yardage: "3 yards" },
-              { name: "Belgian Linen Twill", type: "Linen", color: "#A52A2A", yardage: "2.5 yards" },
-            ].map((fabric, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 bg-secondary/50 border border-border">
-                <div 
-                  className="w-8 h-8 border border-foreground/20 flex-shrink-0" 
-                  style={{ backgroundColor: fabric.color }}
-                  aria-label={`${fabric.name} color swatch`}
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="font-mono text-xs text-foreground truncate">
-                    {fabric.name}
-                  </p>
-                  <p className="font-mono text-[10px] text-muted-foreground">
-                    {fabric.type}
+        {/* RIGHT SIDE - Fabrics & Notions */}
+        <div className="flex-1">
+          {/* Recommended Fabrics Section */}
+          <div>
+            <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-foreground">
+              Recommended Fabrics
+            </h4>
+            <p className="mt-1 font-mono text-[10px] text-muted-foreground italic">
+              Sourced from MOOD Fabrics
+            </p>
+            
+            <div className="mt-4 flex flex-col gap-2">
+              {[
+                { name: "Italian Silk Charmeuse", type: "Silk", color: "#8B1A1A", yardage: "2.5 yards" },
+                { name: "Japanese Crepe de Chine", type: "Silk Blend", color: "#6B1515", yardage: "2.75 yards" },
+                { name: "French Wool Gabardine", type: "Wool", color: "#4A1010", yardage: "3 yards" },
+                { name: "Belgian Linen Twill", type: "Linen", color: "#A52A2A", yardage: "2.5 yards" },
+              ].map((fabric, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 bg-secondary/50 border border-border">
+                  <div 
+                    className="w-6 h-6 border border-foreground/20 flex-shrink-0" 
+                    style={{ backgroundColor: fabric.color }}
+                    aria-label={`${fabric.name} color swatch`}
+                  />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-mono text-xs text-foreground truncate">
+                      {fabric.name}
+                    </p>
+                    <p className="font-mono text-[10px] text-muted-foreground">
+                      {fabric.type}
+                    </p>
+                  </div>
+                  <p className="font-mono text-[10px] text-foreground flex-shrink-0">
+                    {fabric.yardage}
                   </p>
                 </div>
-                <p className="font-mono text-[10px] text-foreground flex-shrink-0">
-                  {fabric.yardage}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Notions & Thread Section */}
-          <h4 className="mt-8 font-mono text-xs tracking-[0.2em] uppercase text-foreground">
-            Notions & Thread
-          </h4>
-          
-          <div className="mt-4 flex flex-col gap-3">
-            {[
-              { name: "Matching Polyester Thread", detail: "Deep Red #812", quantity: "2 spools" },
-              { name: "Invisible Zipper", detail: "22 inch, Deep Red", quantity: "1 pc" },
-              { name: "Silk Covered Buttons", detail: "15mm, Self-Cover", quantity: "6 pcs" },
-              { name: "Lightweight Fusible Interfacing", detail: "Woven, White", quantity: "0.5 yards" },
-            ].map((notion, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 bg-secondary/50 border border-border">
-                <div className="flex-1 min-w-0">
-                  <p className="font-mono text-xs text-foreground truncate">
-                    {notion.name}
-                  </p>
-                  <p className="font-mono text-[10px] text-muted-foreground">
-                    {notion.detail}
+          <div className="mt-6">
+            <h4 className="font-mono text-xs tracking-[0.2em] uppercase text-foreground">
+              Notions & Thread
+            </h4>
+            
+            <div className="mt-4 flex flex-col gap-2">
+              {[
+                { name: "Matching Polyester Thread", detail: "Deep Red #812", quantity: "2 spools" },
+                { name: "Invisible Zipper", detail: "22 inch, Deep Red", quantity: "1 pc" },
+                { name: "Silk Covered Buttons", detail: "15mm, Self-Cover", quantity: "6 pcs" },
+                { name: "Lightweight Fusible Interfacing", detail: "Woven, White", quantity: "0.5 yards" },
+              ].map((notion, index) => (
+                <div key={index} className="flex items-center gap-3 p-3 bg-secondary/50 border border-border">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-mono text-xs text-foreground truncate">
+                      {notion.name}
+                    </p>
+                    <p className="font-mono text-[10px] text-muted-foreground">
+                      {notion.detail}
+                    </p>
+                  </div>
+                  <p className="font-mono text-[10px] text-foreground flex-shrink-0">
+                    {notion.quantity}
                   </p>
                 </div>
-                <p className="font-mono text-[10px] text-foreground flex-shrink-0">
-                  {notion.quantity}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
           {/* Add to MOOD Cart Button */}
@@ -322,7 +299,7 @@ export function GenerationResult({
             href="https://www.moodfabrics.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 w-full flex items-center justify-center gap-3 bg-foreground text-primary-foreground font-mono text-sm tracking-[0.2em] uppercase py-4 hover:opacity-90 transition-opacity"
+            className="mt-6 w-full flex items-center justify-center gap-3 bg-foreground text-primary-foreground font-mono text-xs tracking-[0.2em] uppercase py-3 hover:opacity-90 transition-opacity"
           >
             Add All to MOOD Fabrics Cart
           </a>
@@ -330,21 +307,21 @@ export function GenerationResult({
             Redirecting to moodfabrics.com
           </p>
         </div>
+      </div>
 
-        {/* Pattern Saved Confirmation */}
-        <div className="mt-10 border-t border-foreground/20 pt-8 pb-8">
-          <p className="text-center font-mono text-sm tracking-[0.2em] uppercase text-foreground">
-            Your Pattern Has Been Saved
-          </p>
-          
-          <div className="mt-6 flex gap-3">
-            <button className="flex-1 flex items-center justify-center border border-foreground px-4 py-3 font-mono text-xs tracking-[0.15em] uppercase text-foreground bg-background hover:bg-foreground hover:text-primary-foreground transition-colors">
-              View in My Patterns
-            </button>
-            <button className="flex-1 flex items-center justify-center border border-foreground px-4 py-3 font-mono text-xs tracking-[0.15em] uppercase text-foreground bg-background hover:bg-foreground hover:text-primary-foreground transition-colors">
-              List on Marketplace
-            </button>
-          </div>
+      {/* BOTTOM - Full Width Pattern Saved Confirmation */}
+      <div className="mt-10 border-t border-foreground/20 pt-8 pb-8">
+        <p className="text-center font-mono text-sm tracking-[0.2em] uppercase text-foreground">
+          Your Pattern Has Been Saved
+        </p>
+        
+        <div className="mt-6 flex justify-center gap-3 max-w-lg mx-auto">
+          <button className="flex-1 flex items-center justify-center border border-foreground px-4 py-3 font-mono text-xs tracking-[0.15em] uppercase text-foreground bg-background hover:bg-foreground hover:text-primary-foreground transition-colors">
+            View in My Patterns
+          </button>
+          <button className="flex-1 flex items-center justify-center border border-foreground px-4 py-3 font-mono text-xs tracking-[0.15em] uppercase text-foreground bg-background hover:bg-foreground hover:text-primary-foreground transition-colors">
+            List on Marketplace
+          </button>
         </div>
       </div>
     </div>
