@@ -72,6 +72,7 @@ export default function GeneratePatternPage() {
       <main className="min-h-screen bg-background flex flex-col">
         <div className="flex-1 flex flex-col px-6 md:px-12 lg:px-24 py-8 max-w-4xl mx-auto w-full">
           <GenerationResult
+            projectTitle={projectTitle}
             garmentType={garmentDisplay}
             description={description}
             onRegenerate={() => {}}

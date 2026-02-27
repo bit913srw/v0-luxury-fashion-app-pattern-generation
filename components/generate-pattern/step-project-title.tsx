@@ -12,7 +12,7 @@ export function StepProjectTitle({ value, onChange, onNext }: StepProjectTitlePr
   return (
     <div className="flex flex-col flex-1 justify-center">
       <label htmlFor="project-title" className="font-sans text-3xl md:text-4xl lg:text-5xl italic text-foreground leading-tight text-balance">
-        What are we creating today?
+        Lets get started!
       </label>
 
       <input
