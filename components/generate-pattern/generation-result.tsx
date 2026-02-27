@@ -57,7 +57,7 @@ function GarmentViewer({
               }}
             >
               <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-foreground whitespace-nowrap">
-                3D Rendered Design · Drag to Explore All Angles
+                Will Be 3D Rendered Design. User Will Be Able To Drag Toggle To Explore All Angles
               </p>
             </div>
           </div>
