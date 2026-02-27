@@ -1,7 +1,21 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { RotateCcw, Pencil, ArrowRight, FileText, Printer } from "lucide-react"
+import { RotateCcw, Pencil, ArrowRight, FileText, Printer, Check } from "lucide-react"
+
+const FABRICS = [
+  { id: "f1", name: "Italian Silk Charmeuse", type: "Silk", color: "#8B1A1A", yardage: "2.5 yds" },
+  { id: "f2", name: "Japanese Crepe de Chine", type: "Silk Blend", color: "#6B1515", yardage: "2.75 yds" },
+  { id: "f3", name: "French Wool Gabardine", type: "Wool", color: "#4A1010", yardage: "3 yds" },
+  { id: "f4", name: "Belgian Linen Twill", type: "Linen", color: "#A52A2A", yardage: "2.5 yds" },
+]
+
+const NOTIONS = [
+  { id: "n1", name: "Matching Polyester Thread", detail: "Deep Red #812", quantity: "2 spools" },
+  { id: "n2", name: "Invisible Zipper", detail: "22 inch, Deep Red", quantity: "1 pc" },
+  { id: "n3", name: "Silk Covered Buttons", detail: "15mm, Self-Cover", quantity: "6 pcs" },
+  { id: "n4", name: "Fusible Interfacing", detail: "Woven, White", quantity: "0.5 yds" },
+]
 
 type Phase = "generating-design" | "design-ready" | "generating-pattern" | "pattern-ready"
 
@@ -161,6 +175,45 @@ export function GenerationResult({
   }
 
   // pattern-ready
+  const [selectedFabrics, setSelectedFabrics] = useState<Set<string>>(new Set(FABRICS.map(f => f.id)))
+  const [selectedNotions, setSelectedNotions] = useState<Set<string>>(new Set(NOTIONS.map(n => n.id)))
+
+  const toggleFabric = (id: string) => {
+    setSelectedFabrics(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
+  }
+
+  const toggleNotion = (id: string) => {
+    setSelectedNotions(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
+  }
+
+  const selectAll = () => {
+    setSelectedFabrics(new Set(FABRICS.map(f => f.id)))
+    setSelectedNotions(new Set(NOTIONS.map(n => n.id)))
+  }
+
+  const deselectAll = () => {
+    setSelectedFabrics(new Set())
+    setSelectedNotions(new Set())
+  }
+
+  const totalSelected = selectedFabrics.size + selectedNotions.size
+
   const handlePrint = () => {
     window.print()
   }
@@ -269,6 +322,23 @@ export function GenerationResult({
 
         {/* RIGHT COLUMN - Fabrics & Notions (50%, smaller font) */}
         <div className="w-full md:w-1/2">
+          {/* Select All / Deselect All */}
+          <div className="flex gap-3 mb-4">
+            <button
+              onClick={selectAll}
+              className="font-mono text-[9px] tracking-[0.1em] uppercase text-foreground hover:underline"
+            >
+              Select All
+            </button>
+            <span className="text-muted-foreground">|</span>
+            <button
+              onClick={deselectAll}
+              className="font-mono text-[9px] tracking-[0.1em] uppercase text-foreground hover:underline"
+            >
+              Deselect All
+            </button>
+          </div>
+
           {/* Recommended Fabrics Section */}
           <div>
             <h4 className="font-mono text-[11px] tracking-[0.2em] uppercase text-foreground">
@@ -279,31 +349,44 @@ export function GenerationResult({
             </p>
             
             <div className="mt-3 flex flex-col gap-2">
-              {[
-                { name: "Italian Silk Charmeuse", type: "Silk", color: "#8B1A1A", yardage: "2.5 yds" },
-                { name: "Japanese Crepe de Chine", type: "Silk Blend", color: "#6B1515", yardage: "2.75 yds" },
-                { name: "French Wool Gabardine", type: "Wool", color: "#4A1010", yardage: "3 yds" },
-                { name: "Belgian Linen Twill", type: "Linen", color: "#A52A2A", yardage: "2.5 yds" },
-              ].map((fabric, index) => (
-                <div key={index} className="flex items-center gap-2 p-2 bg-secondary/50 border border-border">
-                  <div 
-                    className="w-6 h-6 border border-foreground/20 flex-shrink-0" 
-                    style={{ backgroundColor: fabric.color }}
-                    aria-label={`${fabric.name} color swatch`}
-                  />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-mono text-[10px] text-foreground truncate">
-                      {fabric.name}
+              {FABRICS.map((fabric) => {
+                const isSelected = selectedFabrics.has(fabric.id)
+                return (
+                  <button
+                    key={fabric.id}
+                    onClick={() => toggleFabric(fabric.id)}
+                    className={`flex items-center gap-2 p-2 border transition-colors text-left ${
+                      isSelected 
+                        ? "bg-foreground/5 border-foreground" 
+                        : "bg-secondary/50 border-border hover:border-foreground/50"
+                    }`}
+                  >
+                    <div 
+                      className={`w-5 h-5 border flex-shrink-0 flex items-center justify-center ${
+                        isSelected ? "border-foreground bg-foreground" : "border-foreground/30"
+                      }`}
+                    >
+                      {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
+                    </div>
+                    <div 
+                      className="w-6 h-6 border border-foreground/20 flex-shrink-0" 
+                      style={{ backgroundColor: fabric.color }}
+                      aria-label={`${fabric.name} color swatch`}
+                    />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-mono text-[10px] text-foreground truncate">
+                        {fabric.name}
+                      </p>
+                      <p className="font-mono text-[9px] text-muted-foreground">
+                        {fabric.type}
+                      </p>
+                    </div>
+                    <p className="font-mono text-[9px] text-foreground flex-shrink-0">
+                      {fabric.yardage}
                     </p>
-                    <p className="font-mono text-[9px] text-muted-foreground">
-                      {fabric.type}
-                    </p>
-                  </div>
-                  <p className="font-mono text-[9px] text-foreground flex-shrink-0">
-                    {fabric.yardage}
-                  </p>
-                </div>
-              ))}
+                  </button>
+                )
+              })}
             </div>
           </div>
 
@@ -314,26 +397,39 @@ export function GenerationResult({
             </h4>
             
             <div className="mt-3 flex flex-col gap-2">
-              {[
-                { name: "Matching Polyester Thread", detail: "Deep Red #812", quantity: "2 spools" },
-                { name: "Invisible Zipper", detail: "22 inch, Deep Red", quantity: "1 pc" },
-                { name: "Silk Covered Buttons", detail: "15mm, Self-Cover", quantity: "6 pcs" },
-                { name: "Fusible Interfacing", detail: "Woven, White", quantity: "0.5 yds" },
-              ].map((notion, index) => (
-                <div key={index} className="flex items-center gap-2 p-2 bg-secondary/50 border border-border">
-                  <div className="flex-1 min-w-0">
-                    <p className="font-mono text-[10px] text-foreground truncate">
-                      {notion.name}
+              {NOTIONS.map((notion) => {
+                const isSelected = selectedNotions.has(notion.id)
+                return (
+                  <button
+                    key={notion.id}
+                    onClick={() => toggleNotion(notion.id)}
+                    className={`flex items-center gap-2 p-2 border transition-colors text-left ${
+                      isSelected 
+                        ? "bg-foreground/5 border-foreground" 
+                        : "bg-secondary/50 border-border hover:border-foreground/50"
+                    }`}
+                  >
+                    <div 
+                      className={`w-5 h-5 border flex-shrink-0 flex items-center justify-center ${
+                        isSelected ? "border-foreground bg-foreground" : "border-foreground/30"
+                      }`}
+                    >
+                      {isSelected && <Check className="w-3 h-3 text-primary-foreground" />}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-mono text-[10px] text-foreground truncate">
+                        {notion.name}
+                      </p>
+                      <p className="font-mono text-[9px] text-muted-foreground">
+                        {notion.detail}
+                      </p>
+                    </div>
+                    <p className="font-mono text-[9px] text-foreground flex-shrink-0">
+                      {notion.quantity}
                     </p>
-                    <p className="font-mono text-[9px] text-muted-foreground">
-                      {notion.detail}
-                    </p>
-                  </div>
-                  <p className="font-mono text-[9px] text-foreground flex-shrink-0">
-                    {notion.quantity}
-                  </p>
-                </div>
-              ))}
+                  </button>
+                )
+              })}
             </div>
           </div>
 
@@ -342,9 +438,17 @@ export function GenerationResult({
             href="https://www.moodfabrics.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-5 w-full flex items-center justify-center gap-2 bg-foreground text-primary-foreground font-mono text-[10px] tracking-[0.15em] uppercase py-3 hover:opacity-90 transition-opacity"
+            className={`mt-5 w-full flex items-center justify-center gap-2 font-mono text-[10px] tracking-[0.15em] uppercase py-3 transition-opacity ${
+              totalSelected > 0 
+                ? "bg-foreground text-primary-foreground hover:opacity-90" 
+                : "bg-muted text-muted-foreground cursor-not-allowed"
+            }`}
+            onClick={(e) => totalSelected === 0 && e.preventDefault()}
           >
-            Add All to MOOD Fabrics Cart
+            {totalSelected > 0 
+              ? `Add ${totalSelected} Item${totalSelected !== 1 ? 's' : ''} to MOOD Fabrics Cart`
+              : "Select Items to Add to Cart"
+            }
           </a>
           <p className="mt-1 text-center font-mono text-[9px] text-muted-foreground italic">
             Redirecting to moodfabrics.com
