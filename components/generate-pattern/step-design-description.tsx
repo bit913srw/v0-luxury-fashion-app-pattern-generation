@@ -42,7 +42,7 @@ export function StepDesignDescription({
         <textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Describe the fabric, fit, colors, silhouette, details..."
+          placeholder="Tell AI.TELIER your vision — fabric, fit, silhouette, color, ect. The more details the better!"
           rows={5}
           className="w-full bg-transparent border border-input p-4 font-mono text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors resize-none leading-relaxed"
         />
