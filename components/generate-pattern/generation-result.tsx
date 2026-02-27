@@ -1,8 +1,23 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import dynamic from "next/dynamic"
 import { RotateCcw, Pencil, ArrowRight, FileText } from "lucide-react"
-import { Garment3DViewer } from "./garment-3d-viewer"
+
+const Garment3DViewer = dynamic(
+  () => import("./garment-3d-viewer").then((mod) => mod.Garment3DViewer),
+  { 
+    ssr: false,
+    loading: () => (
+      <div className="aspect-[3/4] bg-secondary border border-border flex items-center justify-center">
+        <div className="relative w-10 h-10">
+          <div className="absolute inset-0 border border-foreground/20 rounded-full" />
+          <div className="absolute inset-0 border-t border-foreground rounded-full animate-spin" />
+        </div>
+      </div>
+    )
+  }
+)
 
 type Phase = "generating-design" | "design-ready" | "generating-pattern" | "pattern-ready"
 
