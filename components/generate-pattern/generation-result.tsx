@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { RotateCcw, Pencil, ArrowRight, FileText } from "lucide-react"
+import { Garment3DViewer } from "./garment-3d-viewer"
 
 type Phase = "generating-design" | "design-ready" | "generating-pattern" | "pattern-ready"
 
@@ -66,19 +67,13 @@ export function GenerationResult({
     return (
       <div className="flex flex-col flex-1 items-center justify-center">
         <div className="w-full max-w-lg">
-          {/* AI Generated Image */}
-          <div className="relative aspect-[3/4] bg-[#F5F3EF] border border-border overflow-hidden">
-            <img
-              src="/images/mannequin-dress.jpg"
-              alt={`AI generated ${garmentType} design on cloth mannequin`}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute bottom-4 left-4 right-4 text-center">
-              <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-muted-foreground bg-background/80 py-1 px-2 inline-block">
-                AI Generated {garmentType}
-              </p>
-            </div>
-          </div>
+          {/* 3D Garment Viewer */}
+          <Garment3DViewer garmentType={garmentType} />
+          
+          {/* Rotation hint */}
+          <p className="mt-2 text-center font-mono text-[10px] tracking-[0.1em] text-muted-foreground italic">
+            drag to rotate
+          </p>
 
           {/* Action buttons */}
           <div className="mt-6 flex flex-col gap-3">
