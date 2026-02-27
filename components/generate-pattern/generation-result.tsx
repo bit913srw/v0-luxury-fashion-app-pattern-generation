@@ -118,6 +118,8 @@ export function GenerationResult({
   onEditPrompt,
 }: GenerationResultProps) {
   const [phase, setPhase] = useState<Phase>("generating-design")
+  const [selectedFabrics, setSelectedFabrics] = useState<Set<string>>(new Set(FABRICS.map(f => f.id)))
+  const [selectedNotions, setSelectedNotions] = useState<Set<string>>(new Set(NOTIONS.map(n => n.id)))
 
   useEffect(() => {
     if (phase === "generating-design") {
@@ -125,6 +127,46 @@ export function GenerationResult({
       return () => clearTimeout(timer)
     }
   }, [phase])
+
+  const toggleFabric = (id: string) => {
+    setSelectedFabrics(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
+  }
+
+  const toggleNotion = (id: string) => {
+    setSelectedNotions(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(id)) {
+        newSet.delete(id)
+      } else {
+        newSet.add(id)
+      }
+      return newSet
+    })
+  }
+
+  const selectAll = () => {
+    setSelectedFabrics(new Set(FABRICS.map(f => f.id)))
+    setSelectedNotions(new Set(NOTIONS.map(n => n.id)))
+  }
+
+  const deselectAll = () => {
+    setSelectedFabrics(new Set())
+    setSelectedNotions(new Set())
+  }
+
+  const totalSelected = selectedFabrics.size + selectedNotions.size
+
+  const handlePrint = () => {
+    window.print()
+  }
 
   const handleThisIsIt = () => {
     setPhase("generating-pattern")
@@ -175,49 +217,6 @@ export function GenerationResult({
   }
 
   // pattern-ready
-  const [selectedFabrics, setSelectedFabrics] = useState<Set<string>>(new Set(FABRICS.map(f => f.id)))
-  const [selectedNotions, setSelectedNotions] = useState<Set<string>>(new Set(NOTIONS.map(n => n.id)))
-
-  const toggleFabric = (id: string) => {
-    setSelectedFabrics(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(id)) {
-        newSet.delete(id)
-      } else {
-        newSet.add(id)
-      }
-      return newSet
-    })
-  }
-
-  const toggleNotion = (id: string) => {
-    setSelectedNotions(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(id)) {
-        newSet.delete(id)
-      } else {
-        newSet.add(id)
-      }
-      return newSet
-    })
-  }
-
-  const selectAll = () => {
-    setSelectedFabrics(new Set(FABRICS.map(f => f.id)))
-    setSelectedNotions(new Set(NOTIONS.map(n => n.id)))
-  }
-
-  const deselectAll = () => {
-    setSelectedFabrics(new Set())
-    setSelectedNotions(new Set())
-  }
-
-  const totalSelected = selectedFabrics.size + selectedNotions.size
-
-  const handlePrint = () => {
-    window.print()
-  }
-
   return (
     <div className="flex flex-col flex-1 w-full max-w-5xl mx-auto px-4">
       {/* Two Column Layout - Side by Side */}
