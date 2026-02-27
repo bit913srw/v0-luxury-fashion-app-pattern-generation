@@ -44,12 +44,24 @@ function GarmentViewer({
             alt={`AI generated ${garmentType} design on cloth mannequin`}
             className="w-full h-full object-cover"
           />
+          
+          {/* Paper Strip Overlay */}
+          <div 
+            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex items-center justify-center"
+            style={{ transform: 'translateY(-50%) rotate(-2deg)' }}
+          >
+            <div 
+              className="px-6 py-3 bg-[#F5F2EB]/90 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
+              style={{ 
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)',
+              }}
+            >
+              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-foreground whitespace-nowrap">
+                3D Rendered Design · Drag to Explore All Angles
+              </p>
+            </div>
+          </div>
         </div>
-        
-        {/* Caption */}
-        <p className="mt-3 text-center font-mono text-xs italic text-foreground tracking-[0.05em]">
-          3D rendered design — drag to explore all angles
-        </p>
 
         {/* Action buttons */}
         <div className="mt-6 flex flex-col gap-3">
