@@ -47,16 +47,16 @@ function GarmentViewer({
           
           {/* Paper Strip Overlay */}
           <div 
-            className="absolute left-0 right-0 top-1/2 -translate-y-1/2 flex items-center justify-center"
+            className="absolute left-4 right-4 top-1/2 -translate-y-1/2 flex items-center justify-center"
             style={{ transform: 'translateY(-50%) rotate(-2deg)' }}
           >
             <div 
-              className="px-6 py-3 bg-[#F5F2EB]/90 shadow-[0_2px_8px_rgba(0,0,0,0.12)]"
+              className="px-6 py-3 bg-[#F5F2EB]/90 max-w-[90%]"
               style={{ 
                 boxShadow: '0 2px 8px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08)',
               }}
             >
-              <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-foreground whitespace-nowrap">
+              <p className="font-mono text-[10px] tracking-[0.15em] uppercase text-foreground text-center leading-relaxed">
                 Will Be 3D Rendered Design. User Will Be Able To Drag Toggle To Explore All Angles
               </p>
             </div>
